@@ -5,7 +5,7 @@ require('dotenv/config');
 
 const api = process.env.API_URL;
 
-// for identify post reqest json file format
+// for identify post reqest json file format (Middleware)
 app.use(express.json());
 
 // http://localhost:3000/api/v1/....
