@@ -30,3 +30,4 @@ npm install express
 ## set and read environment variables
 
 npm install dotenv
+// create .env file to add custome environment variables
