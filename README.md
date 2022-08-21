@@ -31,3 +31,14 @@ npm install express
 
 npm install dotenv
 // create .env file to add custome environment variables
+
+// previously node use app.use(bodyParser.json()) but
+now it us use as app.use(express.json())
+
+## HTTP request logger
+
+npm i morgan
+
+## connect backend to db
+
+npm install mongoose
