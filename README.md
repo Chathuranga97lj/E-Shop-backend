@@ -26,3 +26,7 @@ npm start
 ## create web server
 
 npm install express
+
+## set and read environment variables
+
+npm install dotenv
