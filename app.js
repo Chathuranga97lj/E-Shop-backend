@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const { json } = require('express');
 
 require('dotenv/config');
 
@@ -11,22 +12,44 @@ const api = process.env.API_URL;
 app.use(express.json());
 app.use(morgan('tiny'));
 
+const productSchema = mongoose.Schema({
+    name: String,
+    image: String,
+    countInStock: {
+        type: Number,
+        required: true
+    }
+})
+
+const Product = mongoose.model('Product', productSchema); 
+
 // http://localhost:3000/api/v1/....
 // get date from db or storages
-app.get(`${api}/products`, (req, res) => {
-    const product = {
-        id: 1,
-        name: 'hair dresser',
-        image: 'some_url'
+app.get(`${api}/products`, async (req, res) => {
+    const productList = await Product.find();
+
+    if(!productList){
+        res.status(500).json({success: false})
     }
-    res.send(product);
+    res.send(productList);
 });
 
 // send data to frontend
 app.post(`${api}/products`, (req, res) => {
-    const newProduct = req.body;
-    console.log(newProduct);
-    res.send(newProduct);
+    const product = new Product({
+        name: req.body.name,
+        image: req.body.image,
+        countInStock: req.body.countInStock
+    })
+
+    product.save().then((createProduct => {
+        res.status(201).json(createProduct)
+    })).catch((err) => {
+        res.status(500).json({
+            error: err,
+            success: false
+        })
+    })
 });
 
 // add befor starting the server 
