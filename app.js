@@ -12,16 +12,8 @@ const api = process.env.API_URL;
 app.use(express.json());
 app.use(morgan('tiny'));
 
-const productSchema = mongoose.Schema({
-    name: String,
-    image: String,
-    countInStock: {
-        type: Number,
-        required: true
-    }
-})
-
-const Product = mongoose.model('Product', productSchema); 
+// import product schema
+const Product = require('./models/product');
 
 // http://localhost:3000/api/v1/....
 // get date from db or storages
