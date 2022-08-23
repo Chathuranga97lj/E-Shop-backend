@@ -8,8 +8,11 @@ require('dotenv/config');
 
 // import api url
 const api = process.env.API_URL;
-// import product router
+// import routes
+const categoriesRoutes = require('./routers/categories');
 const productsRouter = require('./routers/products');
+const usersRoutes = require('./routers/users');
+const ordersRoutes = require('./routers/orders');
 
 // for identify post reqest json file format (Middleware)
 app.use(express.json());
