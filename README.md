@@ -42,3 +42,7 @@ npm i morgan
 ## connect backend to db
 
 npm install mongoose
+
+## Cross origin resource sharing
+
+npm install cors
