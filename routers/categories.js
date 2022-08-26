@@ -41,6 +41,25 @@ router.post('/', async (req, res) => {
 })
 
 
+// update category
+// put always return old data when updated
+router.put('/:id', async (req, res) => {
+    const category = await Category.findByIdAndUpdate(
+        req.params.id,
+        {
+            name: req.body.name,
+            icon: req.body.icon,
+            color: req.body.color,
+        },
+        {new: true} // for get updated data, else it returns old data after put request
+    )
+    if(!category) 
+        return res.status(404).send('The category cannot be created !');
+    
+    res.send(category);
+})
+
+
 // set delete category
 // id: url look like (api/v1/sdgf24)
 router.delete('/:id', (req, res) => {
