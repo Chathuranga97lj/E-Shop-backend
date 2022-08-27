@@ -6,7 +6,9 @@ const router = express.Router();
 // http://localhost:3000/api/v1/....
 // get date from db or storages (product list)
 router.get(`/`, async (req, res) => {
-    const productList = await Product.find().select('name image -_id');
+    // in select() add only things must show, hide id using - mark
+    // const productList = await Product.find().select('name image -_id');
+    const productList = await Product.find();
 
     if(!productList){
         res.status(500).json({success: false})
