@@ -89,9 +89,24 @@ router.put('/:id', async (req, res) => {
         {new: true} // for get updated data, else it returns old data after put request
     )
     if(!product) 
-        return res.status(500).send('The category cannot be updated !');
+        return res.status(500).send('The product cannot be updated !');
     
     res.send(product);
 })
+
+
+// delete product
+router.delete('/:id', (req, res) => {
+    Product.findByIdAndRemove(req.params.id).then(product => {
+        if(product) {
+            return res.status(200).json({success: true, message: 'The product was deleted !'})
+        } else {
+            return res.status(200).json({success: false, message: 'The product is not funded !'})
+        }
+    }).catch(err => {
+        return res.status(400).json({success: false, error: err})
+    })
+})
+
 
 module.exports = router;
