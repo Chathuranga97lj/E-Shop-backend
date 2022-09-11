@@ -9,8 +9,17 @@ const mongoose = require('mongoose');
 router.get(`/`, async (req, res) => {
     // in select() add only things must show, hide id using - mark
     // const productList = await Product.find().select('name image -_id');
-    const productList = await Product.find();
+    // --------------------- new -----------------------
+    let filter = {};
+    if(req.query.categories)
+    {
+         filter = {category: req.query.categories.split(',')}
+    }
 
+    const productList = await Product.find(filter).populate('category');
+    // ----------------------------------------------------
+    
+    // const productList = await Product.find();
     if(!productList){
         res.status(500).json({success: false})
     }
@@ -115,14 +124,25 @@ router.delete('/:id', (req, res) => {
 })
 
 // get product count
-router.get(`/get/count`, async (req, res) => {
-    let productCount = await Product.countDocuments((count) => count)
-    if(!productCount) {
-        res.status(500).json({success: false})
+router.get(`/get/count`, (req, res) =>{
+
+    try {
+        const product = Product.find();
+       product.count((err,count)=>{
+        if (err) throw err
+        res.status(200).json({count})
+       })
+    } catch (error) {
+        res.status(400).json({message:error.message})
     }
-    res.send({
-        count: productCount
-    });
+    // const productCount = await Product.countDocuments((count) => count)
+
+    // if(!productCount) {
+    //     res.status(500).json({success: false})
+    // } 
+    // res.send({
+    //     productCount: productCount
+    // });
 })
 
 module.exports = router;

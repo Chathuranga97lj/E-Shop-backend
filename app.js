@@ -33,18 +33,18 @@ app.use(`${api}/orders`, ordersRoutes);
 
 
 // add befor starting the server 
-mongoose.connect(process.env.CONNECTION_STRING, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    dbName: 'eshop-database'
-})
-.then(() => {
-    console.log('Database connection is ready.....')
-})
-.catch((err) => {
-    console.log(err);
-})
 
 app.listen(3000, () => {
-    console.log('server is running http://localhost:3000');
+    mongoose.connect(process.env.CONNECTION_STRING, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        dbName: 'eshop-database'
+    })
+    .then(() => {
+        console.log('Server is running in localhost:3000...');
+        console.log('Database connection is ready.....');
+    })
+    .catch((err) => {
+        console.log(err);
+    })
 })

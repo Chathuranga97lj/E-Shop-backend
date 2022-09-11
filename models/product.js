@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const productSchema = mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     description: {
         type: String,
@@ -46,7 +46,7 @@ const productSchema = mongoose.Schema({
     },
     numReviews: {
         type: Number,
-        default: '0'
+        default: 0
     },
     isFeatured: {
         type: Boolean,
@@ -59,5 +59,12 @@ const productSchema = mongoose.Schema({
     }
 })
 
+productSchema.virtual('id').get(function () {
+    return this._id.toHexString();
+});
+
+productSchema.set('toJSON', {
+    virtuals: true,
+});
 
 exports.Product = mongoose.model('Product', productSchema); 
