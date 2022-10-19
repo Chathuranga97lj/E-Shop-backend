@@ -58,5 +58,9 @@ npm install cors
 // localhost:3000/api/v1/products?categorys
 
 ## Auth
+
 ![image](https://user-images.githubusercontent.com/75485255/196804413-aff09e66-59e7-475d-80b3-f868386cfa7a.png)
 
+## password hasing
+
+npm i bcryptjs
