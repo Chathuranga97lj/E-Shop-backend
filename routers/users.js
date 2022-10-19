@@ -2,6 +2,7 @@ const {User} = require('../models/user');
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 router.get(`/`, async (req, res) => {
     // get users without their password
@@ -44,6 +45,35 @@ router.get('/:id', async(req, res) => {
         res.status(500).json({message: 'The user with the given ID was not funded!'})
     }
     res.status(200).send(user);
+})
+
+// user login
+router.post('/login', async(req, res) => {
+    // check email is in there
+    const user = await User.findOne({email: req.body.email});
+    const secret = process.env.secret;
+
+    if(!user){
+        return res.status(400).send('The user not found');
+    }
+
+    // check password
+    if(user && bcrypt.compareSync(req.body.password, user.passwordHash)){
+        const token = jwt.sign(
+            {
+                userId: user.id
+            },
+            secret,
+            {
+                expiresIn: '1d'
+            }
+        )
+
+        return res.status(200).send({user: user.email, token: token});
+    } else {
+        res.status(400).send('Password is Wrong !');
+    }
+
 })
 
 module.exports = router;

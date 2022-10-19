@@ -64,3 +64,7 @@ npm install cors
 ## password hasing
 
 npm i bcryptjs
+
+## jwt token
+
+npm i jsonwebtoken
