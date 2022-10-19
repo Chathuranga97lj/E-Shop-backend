@@ -2,7 +2,7 @@ const {Product} = require('../models/product');
 const express = require('express');
 const { Category } = require('../models/category');
 const router = express.Router();
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); 
 
 // http://localhost:3000/api/v1/....
 // get date from db or storages (product list)
@@ -107,12 +107,23 @@ router.delete('/:id', (req, res) => {
         if(product) {
             return res.status(200).json({success: true, message: 'The product was deleted !'})
         } else {
-            return res.status(200).json({success: false, message: 'The product is not funded !'})
+            return res.status(404).json({success: false, message: 'The product is not funded !'})
         }
     }).catch(err => {
-        return res.status(400).json({success: false, error: err})
+        return res.status(500).json({success: false, error: err})
     })
 })
 
+// get product count
+router.get('/get/count', async (req, res) => {
+    const productCount = await Product.countDocuments();
+    if(!productCount) {
+        res.status(500).json({success: false})
+    }
+    res.send({
+        productCount: productCount
+    });
+   
+})
 
 module.exports = router;
