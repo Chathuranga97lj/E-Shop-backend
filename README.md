@@ -58,4 +58,5 @@ npm install cors
 // localhost:3000/api/v1/products?categorys
 
 ## Auth
-![image](https://user-images.githubusercontent.com/75485255/196804172-0ff3f4a0-e35e-4be0-ab4b-7fdd8d7cfcb6.png)
+![image](https://user-images.githubusercontent.com/75485255/196804413-aff09e66-59e7-475d-80b3-f868386cfa7a.png)
+
