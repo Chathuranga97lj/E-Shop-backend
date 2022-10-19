@@ -48,3 +48,11 @@ npm install mongoose
 npm install cors
 
 // add test commet
+
+# API parameters
+
+// localhost:3000/api/v1/products/12334
+
+# quary parameters
+
+// localhost:3000/api/v1/products?categorys
