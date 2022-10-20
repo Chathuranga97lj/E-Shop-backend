@@ -77,4 +77,30 @@ router.post('/login', async(req, res) => {
 
 })
 
+// delete users
+router.delete('/:id', (req, res) => {
+    User.findByIdAndRemove(req.params.id).then(user => {
+        if(user) {
+            return res.status(200).json({success: true, message: 'The user was deleted !'})
+        } else {
+            return res.status(404).json({success: false, message: 'The user is not funded !'})
+        }
+    }).catch(err => {
+        return res.status(500).json({success: false, error: err})
+    })
+})
+
+
+// get user count
+router.get('/get/count', async (req, res) => {
+    const userCount = await User.countDocuments();
+    if(!userCount) {
+        res.status(500).json({success: false})
+    }
+    res.send({
+        userCount: userCount
+    });
+   
+})
+
 module.exports = router;
