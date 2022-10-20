@@ -68,3 +68,11 @@ npm i bcryptjs
 ## jwt token
 
 npm i jsonwebtoken
+
+## express-jwt
+
+npm i express-jwt
+
+## body parser
+
+npm i body-parser

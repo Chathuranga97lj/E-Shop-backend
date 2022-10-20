@@ -3,16 +3,20 @@ const app = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
-
+const bodyParser = require('body-parser');
 require('dotenv/config');
+const authJwt = require('./helpers/jwt');
 
 app.use(cors());
 // http requests
 app.options('*', cors());
 
 // for identify post reqest json file format (Middleware)
-app.use(express.json());
+app.use(bodyParser.json());
+// app.use(express.json());
 app.use(morgan('tiny'));
+// app.use(authJwt);
+app.use(authJwt());
 
 // import routes
 const categoriesRoutes = require('./routers/categories');
