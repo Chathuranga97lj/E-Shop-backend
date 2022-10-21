@@ -14,6 +14,8 @@ function authJwt() {
             {url: /\/api\/v1\/categories(.*)/ , methods: ['GET', 'OPTIONS'] },
             `${api}/users/login`,
             `${api}/users/register`,
+            // `${api}/orders`,
+            // `${api}/products`,
             // `${api}/users/get/count`,
         ]
     });
@@ -21,9 +23,9 @@ function authJwt() {
 
 async function isRevoked(req, payload, done) {
     if(!payload.isAdmin) {
-        return true;
+        done(null, true)
     }
-        return false;
+        done();
     }
 
 module.exports = authJwt;
