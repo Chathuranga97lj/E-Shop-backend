@@ -3,13 +3,30 @@ const express = require('express');
 const {OrderItem} = require('../models/order-item');
 const router = express.Router();
 
+// get order list
 router.get(`/`, async (req, res) => {
-    const orderList = await Order.find();
+    // use populate to get inside deatils of db, 
+    // sorting :-1 means sort by new to old
+    const orderList = await Order.find().populate('user', 'name').sort({'dateOrdered':-1});
 
     if(!orderList) {
         res.status(500).json({success: false})
     }
     res.send(orderList);
+})
+
+// get one order
+router.get(`/:id`, async (req, res) => {
+    // use populate to get inside deatils of db, 
+    // sorting :-1 means sort by new to old
+    const order = await Order.findById(req.params.id)
+        .populate('user', 'name').sort({'dateOrdered':-1})
+        .populate({path: 'orderItems', populate: 'product'});
+
+    if(!order) {
+        res.status(500).json({success: false})
+    }
+    res.send(order);
 })
 
 // place a order
