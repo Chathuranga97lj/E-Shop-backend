@@ -21,7 +21,10 @@ router.get(`/:id`, async (req, res) => {
     // sorting :-1 means sort by new to old
     const order = await Order.findById(req.params.id)
         .populate('user', 'name').sort({'dateOrdered':-1})
-        .populate({path: 'orderItems', populate: 'product'});
+        .populate({
+            path: 'orderItems', populate:{
+                path: 'product', populate: 'category'}
+        });
 
     if(!order) {
         res.status(500).json({success: false})
