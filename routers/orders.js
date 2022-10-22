@@ -67,4 +67,35 @@ router.post('/', async (req, res) => {
     res.send(order);
 })
 
+// update orders
+router.put('/:id', async (req, res) => {
+    const order = await Order.findByIdAndUpdate(
+        req.params.id,
+        {
+            status: req.body.status
+        },
+        {new: true} // for get updated data, else it returns old data after put request
+    )
+    if(!order) 
+        return res.status(404).send('The order cannot be created !');
+    
+    res.send(order);
+})
+
+// delete order
+router.delete('/:id', (req, res) => {
+    Order.findByIdAndRemove(req.params.id).then(async order => {
+        if(order) {
+            await order.orderItems.map(async orderItem => {
+                await OrderItem.findByIdAndRemove(orderItem);
+            })
+            return res.status(200).json({success: true, message: 'The order was deleted !'})
+        } else {
+            return res.status(404).json({success: false, message: 'The order is not funded !'})
+        }
+    }).catch(err => {
+        return res.status(500).json({success: false, error: err})
+    })
+})
+
 module.exports = router;

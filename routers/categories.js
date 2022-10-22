@@ -67,10 +67,10 @@ router.delete('/:id', (req, res) => {
         if(category) {
             return res.status(200).json({success: true, message: 'The category was deleted !'})
         } else {
-            return res.status(200).json({success: false, message: 'The category is not funded !'})
+            return res.status(404).json({success: false, message: 'The category is not funded !'})
         }
     }).catch(err => {
-        return res.status(400).json({success: false, error: err})
+        return res.status(500).json({success: false, error: err})
     })
 })
 
