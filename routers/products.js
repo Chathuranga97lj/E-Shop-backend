@@ -3,6 +3,21 @@ const express = require('express');
 const { Category } = require('../models/category');
 const router = express.Router();
 const mongoose = require('mongoose'); 
+const multer = require('multer');
+
+// upload images
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, '/public/uploads')
+    },
+    filename: function (req, file, cb) {
+      const filename = file.originalname.split(' ').join('-');
+      cb(null, filename + '-' + Date.now())
+    }
+  })
+  
+  const uploadOptions = multer({ storage: storage })
+
 
 // http://localhost:3000/api/v1/....
 // get date from db or storages (product list)
@@ -35,17 +50,20 @@ router.get(`/:id`, async (req, res) => {
 
 
 // send data to frontend
-router.post(`/`, async (req, res) => {
+router.post(`/`, uploadOptions.single('image'), async (req, res) => {
 
     // validate category
     const category = await Category.findById(req.body.category);
     if(!category) return res.status(400).send('Invalid Category');
+    // image file name
+    const fileName = req.file.filename;
+    const basePath = `${req.protocol}://${req.get('host')}`;
 
     let product = new Product({
         name: req.body.name,
         description: req.body.description,
         richDescription: req.body.richDescription,
-        image: req.body.image,
+        image: `${basePath}${fileName}`,
         brand: req.body.brand,
         price: req.body.price,
         category: req.body.category,

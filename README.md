@@ -76,3 +76,7 @@ npm i express-jwt
 ## body parser
 
 npm i body-parser
+
+## multer (for file uploading)
+
+npm i multer
