@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
       cb(null, '/home/cj/Documents/My-work/api-server/api-server/public/uploads/');
     },
     filename: function (req, file, cb) {
-      
+       
       const fileName = file.originalname.split(' ').join('-');
       const extension = FILE_TYPE_MAP[file.mimetype];
       cb(null, `${fileName}-${Date.now()}.${extension}`);
@@ -71,6 +71,10 @@ router.post(`/`, uploadOptions.single('image'), async (req, res) => {
     // validate category
     const category = await Category.findById(req.body.category);
     if(!category) return res.status(400).send('Invalid Category');
+
+    const file = req.file;
+    if(!file) return res.status(400).send('No image in the request');
+
     // image file name
     const fileName = req.file.filename;
     //const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
