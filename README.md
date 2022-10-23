@@ -80,3 +80,7 @@ npm i body-parser
 ## multer (for file uploading)
 
 npm i multer
+
+## set image path in local
+
+in routers, proudct.js set 25 line to your path folder

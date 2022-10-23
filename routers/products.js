@@ -201,4 +201,37 @@ router.get('/get/featured/:count', async (req, res) => {
    
 })
 
+// for upload multiple images to product
+router.put('/galleryimages/:id', 
+uploadOptions.array('images', 10),
+async (req, res) => {
+    if(!mongoose.isValidObjectId(req.params.id)) {
+        return res.status(400).send('Invalid Product ID');
+    }
+
+    const files = req.files;    
+    let imagepaths = []; 
+    const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
+
+    if(files) {
+        files.map(file => {
+            imagepaths.push(`${basePath}${file.fileName}`);
+        })
+    }
+
+    const product = await Product.findByIdAndUpdate(
+        req.params.id,
+        {
+           images: imagepaths
+        },
+        {new: true}
+
+    )    
+
+    if(!product) 
+        return res.status(500).send('The product cannot be updated !');
+    
+    res.send(product);
+})
+
 module.exports = router;
