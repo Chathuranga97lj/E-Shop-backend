@@ -84,3 +84,7 @@ npm i multer
 ## set image path in local
 
 in routers, proudct.js set 25 line to your path folder
+
+## install heroku in global
+
+sudo npm install -g heroku
