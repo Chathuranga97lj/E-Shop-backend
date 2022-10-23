@@ -38,11 +38,28 @@ app.use(`${api}/users`, usersRoutes);
 app.use(`${api}/orders`, ordersRoutes);
 
 
-// add befor starting the server 
+// add befor starting the server (This is for local testing)
+// mongoose.connect(process.env.CONNECTION_STRING, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//     dbName: 'eshop-database'
+// })
+// .then(() => {
+//     console.log('Database connection is ready.....')
+// })
+// .catch((err) => {
+//     console.log(err);
+// })
+
+// app.listen(3000, () => {
+//     console.log('server is running http://localhost:3000');
+// })
+
+// for hosting
 mongoose.connect(process.env.CONNECTION_STRING, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    dbName: 'eshop-database'
+    dbName: process.env.DB_NAME
 })
 .then(() => {
     console.log('Database connection is ready.....')
@@ -51,6 +68,7 @@ mongoose.connect(process.env.CONNECTION_STRING, {
     console.log(err);
 })
 
-app.listen(3000, () => {
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
     console.log('server is running http://localhost:3000');
 })
