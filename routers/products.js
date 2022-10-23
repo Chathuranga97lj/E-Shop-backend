@@ -210,7 +210,7 @@ async (req, res) => {
     }
 
     const files = req.files;    
-    let imagepaths = []; 
+    let imagespaths = []; 
     const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
 
     if(files) {
@@ -222,7 +222,7 @@ async (req, res) => {
     const product = await Product.findByIdAndUpdate(
         req.params.id,
         {
-           images: imagepaths
+           images: imagespaths
         },
         {new: true}
 
